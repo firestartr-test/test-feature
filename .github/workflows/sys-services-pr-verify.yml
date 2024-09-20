@@ -1,0 +1,34 @@
+name: Sys services PR verify
+on:
+  pull_request:
+    paths:
+      - 'sys_services/**'
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  get_changes:
+    uses: prefapp/firestarter-workflows/.github/workflows/state-repo-analyze-changes.yaml@main
+    with:
+      path: 'sys_services'
+      is-app: false
+
+  pr-verify:
+    needs: get_changes
+    if: ${{ needs.get_changes.outputs.changes != '[]' && needs.get_changes.outputs.changes != '' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        environments: ${{ fromJson(needs.get_changes.outputs.changes) }}
+
+    uses: prefapp/firestarter-workflows/.github/workflows/state-repo-helm-sys-services.yaml@main
+    with:
+      apply: false
+      config_file: .github/sys-services-config.yml
+      environment: ${{ matrix.environments.name }}
+      updated_apps: ${{ toJSON(matrix.environments.changed) }}
+      sops_enabled: true
