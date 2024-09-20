@@ -1,0 +1,17 @@
+# Check docs on how to configure the workflow https://github.com/prefapp/firestarter-workflows/blob/main/docs/state-repo-helm.md#configuration
+
+# provider:
+#   kind: azure
+#   tenant_id: <TENANT_ID>
+#   subscription_id: <SUBSCRIPTION_ID>
+# helm_registries:
+#   - REDACTED.azurecr.io
+# environments:
+#   predev:
+#     cluster_name: <CLUSTER_NAME>
+#     resource_group_name: <RESOURCE_GROUP_NAME>
+#     identifier: <CLIENT_ID>
+#   pro:
+#     cluster_name: <CLUSTER_NAME>
+#     resource_group_name: <RESOURCE_GROUP_NAME>
+#     identifier: <CLIENT_ID>
